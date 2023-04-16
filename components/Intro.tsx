@@ -22,9 +22,6 @@ const Intro = () => {
   const { address, isConnected } = useAccount();
   const [loading, setLoading] = useState<boolean>(false);
   const [contractAddress, setContractAddress] = useState<string>("");
-  const [tokenId, setTokenId] = useState("");
-  const [startingBid, setStartingBid] = useState("");
-  const [increment, setIncrement] = useState("");
   const [nft, setNFT] = useState("");
 
   const AUCTIONCONTRACT = process.env.NEXT_PUBLIC_CONTRACT_ADDRESS;
@@ -39,7 +36,7 @@ const Intro = () => {
   //   abi: NFTContract,
   // };
 
-  const handleContractChange = (e: { target: { value: React.SetStateAction<string>; }; }) => {
+  const handleChange = (e: { target: { value: React.SetStateAction<string>; }; }) => {
     try {
       setContractAddress(e.target.value);
     } catch (error) {}
@@ -47,68 +44,7 @@ const Intro = () => {
     console.log(contractAddress);
   };
 
-  const handleTokenIdChange = (e: { target: { value: React.SetStateAction<string>; }; }) => {
-    try {
-      setTokenId(e.target.value);
-    } catch (error) {}
-
-    console.log(tokenId);
-  };
-
-  const handleBidChange = (e: { target: { value: React.SetStateAction<string>; }; }) => {
-    try {
-      setStartingBid(e.target.value);
-    } catch (error) {}
-
-    console.log(startingBid);
-  };
-
-  const handleIncrementChange = (e: { target: { value: React.SetStateAction<string>; }; }) => {
-    try {
-      setIncrement(e.target.value);
-    } catch (error) {}
-
-    console.log(increment);
-  };
-
-  //set approval for the Auction Contract to pull in the NFT//
-  // const { config: approveConfig, data: data } = usePrepareContractWrite({
-  //   ...nftContractConfig,
-  //   functionName: "setApprovalForAll",
-  //   args: [AUCTIONCONTRACT, true],
-  //   overrides: {
-  //     //value: ethers.utils.parseEther("0"),
-  //     gasLimit: 1500000,
-  //   },
-  //   onError(error: any) {
-  //     console.log("Error", error);
-  //   },
-  // } as unknown as UsePrepareContractWriteConfig);
-
-  // const {
-  //   data: approveData,
-  //   writeAsync: approveTheNFT,
-  //   isLoading: isLoading,
-  //   isSuccess: isSuccess,
-  // } = useContractWrite(approveConfig as UseContractWriteConfig);
-
-  // const approveTokenFunction = async () => {
-  //   try {
-  //     console.log("Contract : tokenId", contractAddress, tokenId);
-
-  //     if(typeof approveTheNFT === "function") {
-  //     let nftTxn = await approveTheNFT?.();
-  //     setLoading(true);
-  //     await nftTxn.wait();
-  //     setLoading(false);
-  //     }
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
-  ///////////////////////////////////////////////////////
-
-  // Register NFT to Auction Contract ///////////////////
+  // Hater or Believer ///////////////////
   // const { config: registerNFTConfig, data: dataRegistration } =
   // usePrepareContractWrite({
   //   ...contractConfig,
