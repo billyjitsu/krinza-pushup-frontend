@@ -64,17 +64,17 @@ const RetrieveImage = () => {
   return (
     <div className="text-white">
       {/* <button
-        classNameName=" bg-blue-500 hover:bg-red-600 rounded-full px-7 py-2 text-white font-bold"
+        className=" bg-blue-500 hover:bg-red-600 rounded-full px-7 py-2 text-white font-bold"
         onClick={getImage}
       >
         Push Me
       </button> */}
-      {/* <img classNameName="w-96" src={nft}></img>
-      <p classNameName="font-bold">Contract Address:</p>
+      {/* <img className="w-96" src={nft}></img>
+      <p className="font-bold">Contract Address:</p>
       {depositedNFT && (
         <>
           {depositedNFT?.nftContract}
-          <p classNameName="font-bold">
+          <p className="font-bold">
             Token ID: {depositedNFT.tknIdOwner.toString()}
           </p>
         </>
