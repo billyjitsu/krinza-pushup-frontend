@@ -28,17 +28,17 @@ const Header = () => {
 
   return (
     <nav
-      className={`flex bg-transparent pt-3 pb-1 px-1 w-full justify-between items-center fixed top-0 z-50 duration-500 ease-in-out lg:py-0 lg-px-0 ${
+      className={`flex bg-black pt-10 pb-10 px-1 w-full justify-between items-center fixed top-0 z-50 duration-500 ease-in-out ${
         animateHeader &&
-        " backdrop-filter backdrop-blur-lg bg-black/25 trasition shadow-xl"
+        " backdrop-filter backdrop-blur-lg bg-black/25 trasition shadow-xl "
       }`}
     >
-      <div className="container px-1 mx-auto flex flex-wrap items-center justify-between">
+      <div className="container px-1 mx-auto flex flex-wrap items-center justify-between ">
         <div className="w-full relative flex justify-between lg:w-auto lg:static lg:block lg:justify-start">
           {/* Logo - Title */}
 
           <Link legacyBehavior href="/">
-            <a className="text-xl font-bold text-white inline-block whitespace-nowrap uppercase ">
+            <a className="text-xl font-bold text-white inline-block whitespace-nowrap uppercase">
               Krinza Push Up Challenge
             </a>
           </Link>
@@ -58,8 +58,8 @@ const Header = () => {
         </div>
 
         <div
-          className={
-            "lg:flex flex-grow items-center bg-white lg:bg-transparent lg:shadow-none" +
+          className={ 
+            "lg:flex flex-grow items-center bg-white lg:bg-transparent lg:shadow-none " +
             (navbarOpen ? " block rounded shadow-lg" : " hidden")
           }
           id="nav-drop"

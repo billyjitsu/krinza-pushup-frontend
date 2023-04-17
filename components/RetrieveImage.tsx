@@ -62,19 +62,19 @@ const RetrieveImage = () => {
   // }, [nftMetaData]);
 
   return (
-    <div className="text-white">
+    <div classNameName="text-white">
       {/* <button
-        className=" bg-blue-500 hover:bg-red-600 rounded-full px-7 py-2 text-white font-bold"
+        classNameName=" bg-blue-500 hover:bg-red-600 rounded-full px-7 py-2 text-white font-bold"
         onClick={getImage}
       >
         Push Me
       </button> */}
-      {/* <img className="w-96" src={nft}></img>
-      <p className="font-bold">Contract Address:</p>
+      {/* <img classNameName="w-96" src={nft}></img>
+      <p classNameName="font-bold">Contract Address:</p>
       {depositedNFT && (
         <>
           {depositedNFT?.nftContract}
-          <p className="font-bold">
+          <p classNameName="font-bold">
             Token ID: {depositedNFT.tknIdOwner.toString()}
           </p>
         </>
