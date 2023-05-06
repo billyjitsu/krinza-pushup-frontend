@@ -22,7 +22,7 @@ import EscrowContract from "../contract/escrow.json";
 const Intro = () => {
   const { address, isConnected } = useAccount();
   const [loading, setLoading] = useState<boolean>(false);
-  const [contractAddress, setContractAddress] = useState<string>("");
+ // const [contractAddress, setContractAddress] = useState<string>("");
   const [nft, setNFT] = useState("");
 
   const ESCROWCONTRACT = process.env.NEXT_PUBLIC_CONTRACT_ADDRESS;
@@ -241,7 +241,7 @@ const Intro = () => {
                           <p className="text-white md:pt-1 ">or</p>
                           <button
                             className="md:w-1/2 bg-blue-500 hover:bg-red-600 rounded-full px-12 py-2  text-white font-bold"
-                            // onClick={}
+                            onClick={voteBeleiveFunction}
                           >
                             Believer
                           </button>
