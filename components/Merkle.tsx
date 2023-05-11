@@ -11,7 +11,7 @@ const root = tree.getHexRoot();
 console.log ("Root>>>>>>>>", root)
 
 interface MerkleProofProps {
-    walletAddress: string;
+    walletAddress: string | undefined;
   }
 
 const leaf = SHA256("0xe2b8651bF50913057fF47FC4f02A8e12146083B8"); //put variable
@@ -28,7 +28,7 @@ console.log("Proof for [0]", proof);
 
 const useMerkleProof = ({ walletAddress }: MerkleProofProps) => {
     console.log("Wallet Address", walletAddress)
-    const leaf = SHA256(walletAddress);
+    const leaf = SHA256(walletAddress as string);
     const proof = tree.getHexProof(leaf);
     const index = leaves.findIndex((v) => v === leaf);
     return { leaf, proof, index };

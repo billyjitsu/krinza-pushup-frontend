@@ -21,8 +21,8 @@ import type {
 const Signers = () => {
   const { address, isConnected } = useAccount();
   const [loading, setLoading] = useState<boolean>(false);
-//   const [proof, setProof] = React.useState("");
-//   const [index, setIndex] = React.useState(0);
+  // const [proof, setProof] = React.useState("");
+  // const [index, setIndex] = React.useState(0);
 
   const ESCROWCONTRACT = process.env.NEXT_PUBLIC_CONTRACT_ADDRESS;
 
@@ -31,45 +31,45 @@ const Signers = () => {
     abi: EscrowContract.abi,
   };
 
-  // const { leaf, proof, index } =  useMerkleProof({ walletAddress: address });
+  const { leaf, proof, index } =  useMerkleProof({ walletAddress: address });
 
   // // lock bets
-  // const { config: lockBetConfig, data: dataLockBet } = usePrepareContractWrite({
-  //   ...contractConfig,
-  //   functionName: "lockBets",
-  //   args: [proof, index],
-  //   overrides: {
-  //     gasLimit: 1500000,
-  //   },
-  //   onError(error: any) {
-  //     console.log("Error", error);
-  //   },
-  // } as unknown as UsePrepareContractWriteConfig);
+  const { config: lockBetConfig, data: dataLockBet } = usePrepareContractWrite({
+    ...contractConfig,
+    functionName: "lockBets",
+    args: [proof, index],
+    overrides: {
+      gasLimit: 1500000,
+    },
+    onError(error: any) {
+      console.log("Error", error);
+    },
+  } as unknown as UsePrepareContractWriteConfig);
 
-  // const {
-  //   data: lockBetData,
-  //   writeAsync: lockBet,
-  //   isLoading: islockBetLoading,
-  //   isSuccess: islockBetSuccess,
-  // } = useContractWrite(lockBetConfig as UseContractWriteConfig);
+  const {
+    data: lockBetData,
+    writeAsync: lockBet,
+    isLoading: islockBetLoading,
+    isSuccess: islockBetSuccess,
+  } = useContractWrite(lockBetConfig as UseContractWriteConfig);
 
-  // const lockBetFunction = async () => {
-  //   try {
-  //     if (typeof lockBet === "function") {
-  //       console.log( "Proof", proof);
-  //       console.log( "Index", index);
-  //       console.log( "Leaf", leaf)
+  const lockBetFunction = async () => {
+    try {
+      if (typeof lockBet === "function") {
+        console.log( "Proof", proof);
+        console.log( "Index", index);
+        console.log( "Leaf", leaf)
 
 
-  //       let nftTxn = await lockBet?.();
-  //       setLoading(true);
-  //       await nftTxn.wait();
-  //       setLoading(false);
-  //     }
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
+        let nftTxn = await lockBet?.();
+        setLoading(true);
+        await nftTxn.wait();
+        setLoading(false);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <div className="bg-black h-screen w-full ">

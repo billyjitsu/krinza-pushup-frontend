@@ -29,7 +29,7 @@ import { publicProvider } from "wagmi/providers/public";
 import { jsonRpcProvider } from "wagmi/providers/jsonRpc";
 
 const { chains, provider } = configureChains(
-  [zkSyncTestnet, baseGoerli],
+  [polygonMumbai],
   [
    // alchemyProvider({ apiKey :`${process.env.ALCHEMY_ID}`}), // just tilda for this
    //jsonRpcProvider({ url: "https://rpc-mainnet.maticvigil.com" }), 
