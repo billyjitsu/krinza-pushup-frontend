@@ -54,7 +54,7 @@ const connectors = connectorsForWallets([
 ]);
 
 const wagmiClient = createClient({
-  autoConnect: true, //testing for hydration  works temporarily with false
+  autoConnect: false, //testing for hydration  works temporarily with false
   connectors,
   provider
 })

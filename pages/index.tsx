@@ -1,23 +1,39 @@
-import type { NextPage } from "next";
-import Head from "next/head";
-import Image from "next/image";
-import styles from "../styles/Home.module.css";
-import Nav from "../components/Nav";
-import Hero from "../components/Intro";
+import React from 'react'
+import type { NextPage } from 'next'
+import { useAccount } from 'wagmi'
+import Intro from '../components/Intro'
+import { ConnectButton } from '@rainbow-me/rainbowkit'
+import Header from '../components/Nav'
 
-const Home: NextPage = () => {
-  return (
-    <>
-      <Head>
-        <title>Krinza Push Up Challenge</title>
-        <meta name="description" content="Krinza Push Up Challenge" />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
+const LandingPage: NextPage = () => {
+  
+    const { isConnected } = useAccount()
 
-      <Nav />
-      <Hero />
-    </>
-  );
-};
+  return(isConnected) ? (
+    <div className='bg-black h-screen w-full'>
+        <Header />
+        <Intro /> 
+    </div>
+  ) : (
+    <div className='bg-black h-screen w-full flex justify-center items-center'>
+        <ConnectButton />
+    </div>
+  )
+  // return(
+  //   <div>
+  //     {
+  //       isConnected ?
+  //       <div className='bg-black h-screen w-full'>
+  //         <Header />
+  //         <Intro /> 
+  //       </div>
+  //       :
+  //       <div>
+  //           <ConnectButton />
+  //       </div>
+  //     }
+  //   </div>
+  // )
+}
 
-export default Home;
+export default LandingPage

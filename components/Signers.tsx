@@ -31,45 +31,45 @@ const Signers = () => {
     abi: EscrowContract.abi,
   };
 
-  const { leaf, proof, index } =  useMerkleProof({ walletAddress: address });
+  // const { leaf, proof, index } =  useMerkleProof({ walletAddress: address });
 
-  // lock bets
-  const { config: lockBetConfig, data: dataLockBet } = usePrepareContractWrite({
-    ...contractConfig,
-    functionName: "lockBets",
-    args: [proof, index],
-    overrides: {
-      gasLimit: 1500000,
-    },
-    onError(error: any) {
-      console.log("Error", error);
-    },
-  } as unknown as UsePrepareContractWriteConfig);
+  // // lock bets
+  // const { config: lockBetConfig, data: dataLockBet } = usePrepareContractWrite({
+  //   ...contractConfig,
+  //   functionName: "lockBets",
+  //   args: [proof, index],
+  //   overrides: {
+  //     gasLimit: 1500000,
+  //   },
+  //   onError(error: any) {
+  //     console.log("Error", error);
+  //   },
+  // } as unknown as UsePrepareContractWriteConfig);
 
-  const {
-    data: lockBetData,
-    writeAsync: lockBet,
-    isLoading: islockBetLoading,
-    isSuccess: islockBetSuccess,
-  } = useContractWrite(lockBetConfig as UseContractWriteConfig);
+  // const {
+  //   data: lockBetData,
+  //   writeAsync: lockBet,
+  //   isLoading: islockBetLoading,
+  //   isSuccess: islockBetSuccess,
+  // } = useContractWrite(lockBetConfig as UseContractWriteConfig);
 
-  const lockBetFunction = async () => {
-    try {
-      if (typeof lockBet === "function") {
-        console.log( "Proof", proof);
-        console.log( "Index", index);
-        console.log( "Leaf", leaf)
+  // const lockBetFunction = async () => {
+  //   try {
+  //     if (typeof lockBet === "function") {
+  //       console.log( "Proof", proof);
+  //       console.log( "Index", index);
+  //       console.log( "Leaf", leaf)
 
 
-        let nftTxn = await lockBet?.();
-        setLoading(true);
-        await nftTxn.wait();
-        setLoading(false);
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  //       let nftTxn = await lockBet?.();
+  //       setLoading(true);
+  //       await nftTxn.wait();
+  //       setLoading(false);
+  //     }
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
 
   return (
     <div className="bg-black h-screen w-full ">
@@ -107,7 +107,7 @@ const Signers = () => {
                         <div className="flex flex-col md:flex-row md:space-x-3 space-y-2 md:space-y-0">
                           <button
                             className=" bg-blue-500 hover:bg-red-600 rounded-full px-12 py-2 text-white font-bold"
-                            onClick={lockBetFunction}
+                            // onClick={lockBetFunction}
                           >
                             Lock
                           </button>
