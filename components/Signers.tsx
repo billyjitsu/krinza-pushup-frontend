@@ -10,7 +10,7 @@ import { ethers } from "ethers";
 import React, { useState, useEffect } from "react";
 import LoadingScreen from "./Loading";
 import EscrowContract from "../contract/escrow.json";
-import MerkleProof from "./Merkle";
+import useMerkleProof from "./Merkle";
 
 import type {
   UseContractReadConfig,
@@ -21,8 +21,8 @@ import type {
 const Signers = () => {
   const { address, isConnected } = useAccount();
   const [loading, setLoading] = useState<boolean>(false);
-  const [proof, setProof] = React.useState("");
-  const [index, setIndex] = React.useState(0);
+//   const [proof, setProof] = React.useState("");
+//   const [index, setIndex] = React.useState(0);
 
   const ESCROWCONTRACT = process.env.NEXT_PUBLIC_CONTRACT_ADDRESS;
 
@@ -30,6 +30,8 @@ const Signers = () => {
     address: ESCROWCONTRACT,
     abi: EscrowContract.abi,
   };
+
+  const { leaf, proof, index } =  useMerkleProof({ walletAddress: address });
 
   // lock bets
   const { config: lockBetConfig, data: dataLockBet } = usePrepareContractWrite({
@@ -54,6 +56,11 @@ const Signers = () => {
   const lockBetFunction = async () => {
     try {
       if (typeof lockBet === "function") {
+        console.log( "Proof", proof);
+        console.log( "Index", index);
+        console.log( "Leaf", leaf)
+
+
         let nftTxn = await lockBet?.();
         setLoading(true);
         await nftTxn.wait();
@@ -100,16 +107,16 @@ const Signers = () => {
                         <div className="flex flex-col md:flex-row md:space-x-3 space-y-2 md:space-y-0">
                           <button
                             className=" bg-blue-500 hover:bg-red-600 rounded-full px-12 py-2 text-white font-bold"
-                           // onClick={voteHaterFunction}
+                            onClick={lockBetFunction}
                           >
-                            Hater
+                            Lock
                           </button>
                           <p className="text-white md:pt-1 ">or</p>
                           <button
                             className="md:w-1/2 bg-blue-500 hover:bg-red-600 rounded-full px-12 py-2  text-white font-bold"
                            // onClick={voteBeleiveFunction}
                           >
-                            Believer
+                            End Game
                           </button>
                         </div>
                       </>
