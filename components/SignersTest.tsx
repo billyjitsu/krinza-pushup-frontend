@@ -26,6 +26,7 @@ const Signers = () => {
   const [proof, setProof] = React.useState<string[]>([]);
   const [index, setIndex] = React.useState(0);
   const [onList, setOnList] = React.useState(true);
+  const [vote, setVote] = React.useState(true);
 
   const ESCROWCONTRACT = process.env.NEXT_PUBLIC_CONTRACT_ADDRESS;
 
@@ -105,17 +106,18 @@ const Signers = () => {
   };
 
   // // Vote Outcome
-  const { config: voteOutcomeConfig, data: dataVoteOutcome } = usePrepareContractWrite({
-    ...contractConfig,
-    functionName: "voteOutcome",
-    args: [proof, index, true],  // true = win, false = lose   make this dynamic
-    overrides: {
-      gasLimit: 1500000,
-    },
-    onError(error: any) {
-      console.log("Error", error);
-    },
-  } as unknown as UsePrepareContractWriteConfig);
+  const { config: voteOutcomeConfig, data: dataVoteOutcome } =
+    usePrepareContractWrite({
+      ...contractConfig,
+      functionName: "voteOutcome",
+      args: [proof, index, true], // true = win, false = lose   make this dynamic
+      overrides: {
+        gasLimit: 1500000,
+      },
+      onError(error: any) {
+        console.log("Error", error);
+      },
+    } as unknown as UsePrepareContractWriteConfig);
 
   const {
     data: voteData,
@@ -227,46 +229,48 @@ const Signers = () => {
                 {!loading && onList && (
                   <>
                     <h1 className="text-3xl md:text-5xl font-bold text-white ">
-                      The Krinza{" "}
-                      <span className="line-through text-red-500">10</span> 1
-                      Push Challenge <br></br>
+                      The VC{" "}
+                      <span className=" text-red-500">5 </span>
+                       Council <br></br>
                     </h1>
                     <h1 className="text-md md:text-xl text-white">
-                      Choose your side:
+                      You have the power:
                     </h1>
                   </>
                 )}
 
                 <div className="flex flex-col max-w-s items-center text-center md:items-start ">
-                  {
-                    onList && !loading && isConnected && (
-                      <>
-                        <div className="flex flex-col md:flex-row w-full md:w-full md:space-x-2 items-center "></div>
-                        <div className="flex flex-col md:flex-row md:space-x-3 space-y-2 md:space-y-0">
-                          <button
-                            className=" bg-blue-500 hover:bg-red-600 rounded-full px-12 py-2 text-white font-bold"
-                            onClick={lockBetFunction}
-                          >
-                            Lock
-                          </button>
-                          {/* <p className="text-white md:pt-1 ">or</p> */}
-                          <button
-                            className="md:w-1/2 bg-blue-500 hover:bg-red-600 rounded-full px-12 py-2  text-white font-bold"
-                            onClick={voteOutcomeFunction}
-                          >
-                            Vote
-                          </button>
-                          <button
-                            className="md:w-1/2 bg-blue-500 hover:bg-red-600 rounded-full px-12 py-2  text-white font-bold"
-                            onClick={endGameFunction}
-                          >
-                            End Game
-                          </button>
-                          
-                        </div>
-                      </>
-                    )
-                  }
+                  {onList && !loading && isConnected && (
+                    <>
+                      <div className="flex flex-col md:flex-row w-full md:w-full md:space-x-2 items-center "></div>
+                      <div className="flex flex-col md:flex-row md:space-x-3 space-y-2 md:space-y-0">
+                        <button
+                          className=" bg-blue-500 hover:bg-red-600 rounded-full px-12 py-2 text-white font-bold"
+                          onClick={lockBetFunction}
+                        >
+                          Lock
+                        </button>
+                        {/* <p className="text-white md:pt-1 ">or</p> */}
+                        <select>
+                          <option value="">Select an option</option>
+                          <option value="true">Yes</option>
+                          <option value="false">No</option>
+                        </select>
+                        <button
+                          className="md:w-1/2 bg-blue-500 hover:bg-red-600 rounded-full px-12 py-2  text-white font-bold"
+                          onClick={voteOutcomeFunction}
+                        >
+                          Vote
+                        </button>
+                        <button
+                          className="md:w-1/2 bg-blue-500 hover:bg-red-600 rounded-full px-12 py-2  text-white font-bold"
+                          onClick={endGameFunction}
+                        >
+                          End Game
+                        </button>
+                      </div>
+                    </>
+                  )}
                 </div>
               </div>
             </div>
