@@ -25,6 +25,7 @@ const Signers = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [proof, setProof] = React.useState<string[]>([]);
   const [index, setIndex] = React.useState(0);
+  const [onList, setOnList] = React.useState(true);
 
   const ESCROWCONTRACT = process.env.NEXT_PUBLIC_CONTRACT_ADDRESS;
 
@@ -32,8 +33,6 @@ const Signers = () => {
     address: ESCROWCONTRACT,
     abi: EscrowContract.abi,
   };
-
-  //const { leaf, proof, index } =  useMerkleProof({ walletAddress: address });
 
   // // lock bets
   const { config: lockBetConfig, data: dataLockBet } = usePrepareContractWrite({
@@ -58,9 +57,6 @@ const Signers = () => {
   const lockBetFunction = async () => {
     try {
       if (typeof lockBet === "function") {
-        // console.log( "Proof", proof);
-        // console.log( "Index", index);
-        // console.log( "Leaf", leaf)
         await MerkleProof();
 
         let nftTxn = await lockBet?.();
@@ -72,13 +68,6 @@ const Signers = () => {
       console.log(error);
     }
   };
-
-  // useEffect(() => {
-  //   const { proofs, indexPosition } = MerkleProof();
-  //   setProof(proofs);
-  //   setIndex(indexPosition);
-  //   console.log("Proof in useEffect", proof);
-  // }, []);
 
   // const leaves = [
   //   "0xe2b8651bF50913057fF47FC4f02A8e12146083B8",
@@ -97,7 +86,7 @@ const Signers = () => {
   const root = tree.getHexRoot();
   //console.log ("Root>>>>>>>>", root)
 
-  const MerkleProof = async () => {
+  const MerkleProof = () => {
     if (!address) {
       // Handle the case when the wallet address is not available
       // Set default values or handle the error accordingly
@@ -107,12 +96,8 @@ const Signers = () => {
     // console.log("Hashed wallet:", SHA256(address as string));
     // console.log("Leaves index address:", leaves[0]);
     const leaf = SHA256(address as string);
-    // const temp = address.toLowerCase();
-    // console.log("Hashed wallet lowercase:", SHA256(temp as string));
-    // const leaf = SHA256(temp as string);
-    //console.log("Leaf", leaf);
     const proofs = tree.getHexProof(leaf);
-     setProof(proofs);
+    // setProof(proofs);
     console.log("Proof", proof);
     //const indexPosition = leaves.findIndex((v) => v === leaf);
     const indexPosition = leaves.findIndex(
@@ -121,13 +106,31 @@ const Signers = () => {
     console.log("Index Position", indexPosition);
 
     if (indexPosition === -1) {
-      throw new Error("Leaf not found in the Merkle tree");
+      try {
+        //throw new Error("Leaf not found in the Merkle tree");
+        setOnList(false);
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
+      setOnList(true);
     }
     // setIndex(indexPosition);
-    setIndex(indexPosition);
+    //setIndex(indexPosition);
     console.log("Index", index);
     return { proofs, indexPosition };
   };
+
+  useEffect(() => {
+    try {
+      const { proofs, indexPosition } = MerkleProof();
+      setProof(proofs);
+      setIndex(indexPosition);
+      console.log("Proof in useEffect", proof);
+    } catch (error) {
+      console.log(error);
+    }
+  }, [address]);
 
   return (
     <div className="bg-black h-screen w-full ">
@@ -142,7 +145,16 @@ const Signers = () => {
 
             <div className="flex flex-col  items-center justify-center -mt-6 md:mt-0 sm:-ml-0 md:-ml-12">
               <div className="text-center md:text-left md:ml-16 space-x-2 space-y-5">
-                {!loading && (
+                {onList ? (
+                  <div>
+                    {/* Your existing content when the wallet is on the list */}
+                  </div>
+                ) : (
+                  <div className="text-3xl md:text-5xl font-bold text-white ">
+                    Wallet is not on the list.
+                  </div>
+                )}
+                {!loading && onList && (
                   <>
                     <h1 className="text-3xl md:text-5xl font-bold text-white ">
                       The Krinza{" "}
@@ -157,7 +169,7 @@ const Signers = () => {
 
                 <div className="flex flex-col max-w-s items-center text-center md:items-start ">
                   {
-                    /*!isLoading && */ !loading && isConnected && (
+                    onList && !loading && isConnected && (
                       <>
                         <div className="flex flex-col md:flex-row w-full md:w-full md:space-x-2 items-center "></div>
                         <div className="flex flex-col md:flex-row md:space-x-3 space-y-2 md:space-y-0">
