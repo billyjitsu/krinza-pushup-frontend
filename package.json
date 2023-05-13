@@ -13,6 +13,7 @@
     "@fortawesome/free-solid-svg-icons": "^6.4.0",
     "@fortawesome/react-fontawesome": "^0.2.0",
     "@rainbow-me/rainbowkit": "^0.12.8",
+    "crypto-js": "^4.1.1",
     "ethers": "^5.7.2",
     "keccak256": "^1.0.6",
     "merkletreejs": "^0.3.10",
@@ -22,6 +23,7 @@
     "wagmi": "^0.12.10"
   },
   "devDependencies": {
+    "@types/crypto-js": "^4.1.1",
     "@types/node": "18.15.11",
     "@types/react": "18.0.35",
     "@types/react-dom": "18.0.11",

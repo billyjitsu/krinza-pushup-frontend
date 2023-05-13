@@ -53,7 +53,7 @@ const Intro = () => {
     ],
     overrides: {
       gasLimit: 1500000,
-      value: ethers.utils.parseEther("0.1"),
+      value: ethers.utils.parseEther("0.0026"),
     },
     onError(error:any) {
       console.log("Error", error);

@@ -1,5 +1,6 @@
 import { MerkleTree } from "merkletreejs";
-import { keccak256 as SHA256 } from "js-sha3";
+//import { keccak256 as SHA256 } from "js-sha3";
+import SHA256 from "keccak256";
 
 const leaves = [
   "0xe2b8651bF50913057fF47FC4f02A8e12146083B8",
@@ -14,11 +15,11 @@ interface MerkleProofProps {
     walletAddress: string | undefined;
   }
 
-const leaf = SHA256("0xe2b8651bF50913057fF47FC4f02A8e12146083B8"); //put variable
-const proof = tree.getHexProof(leaf);
-// console.log(tree.toString());
-console.log("Root", tree.getHexRoot());
-console.log("Proof for [0]", proof);
+// const leaf = SHA256("0xe2b8651bF50913057fF47FC4f02A8e12146083B8"); //put variable
+// const proof = tree.getHexProof(leaf);
+// // console.log(tree.toString());
+// console.log("Root", tree.getHexRoot());
+// console.log("Proof for [0]", proof);
 
 // const MerkleProof = ({ walletAddress }: MerkleProofProps) => {
 //     const leaf = SHA256(walletAddress);
@@ -29,8 +30,11 @@ console.log("Proof for [0]", proof);
 const useMerkleProof = ({ walletAddress }: MerkleProofProps) => {
     console.log("Wallet Address", walletAddress)
     const leaf = SHA256(walletAddress as string);
+    console.log("Leaf", leaf);
     const proof = tree.getHexProof(leaf);
+    console.log("Proof", proof);
     const index = leaves.findIndex((v) => v === leaf);
+    console.log("Index", index);
     return { leaf, proof, index };
 }
 

@@ -10,7 +10,9 @@ import { ethers } from "ethers";
 import React, { useState, useEffect } from "react";
 import LoadingScreen from "./Loading";
 import EscrowContract from "../contract/escrow.json";
-import useMerkleProof from "./Merkle";
+//import useMerkleProof from "./Merkle";
+import { MerkleTree } from "merkletreejs";
+import SHA256 from "keccak256";
 
 import type {
   UseContractReadConfig,
@@ -21,8 +23,8 @@ import type {
 const Signers = () => {
   const { address, isConnected } = useAccount();
   const [loading, setLoading] = useState<boolean>(false);
-  // const [proof, setProof] = React.useState("");
-  // const [index, setIndex] = React.useState(0);
+  const [proof, setProof] = React.useState<string[]>([]);
+  const [index, setIndex] = React.useState(0);
 
   const ESCROWCONTRACT = process.env.NEXT_PUBLIC_CONTRACT_ADDRESS;
 
@@ -31,7 +33,7 @@ const Signers = () => {
     abi: EscrowContract.abi,
   };
 
-  const { leaf, proof, index } =  useMerkleProof({ walletAddress: address });
+  //const { leaf, proof, index } =  useMerkleProof({ walletAddress: address });
 
   // // lock bets
   const { config: lockBetConfig, data: dataLockBet } = usePrepareContractWrite({
@@ -59,7 +61,7 @@ const Signers = () => {
         // console.log( "Proof", proof);
         // console.log( "Index", index);
         // console.log( "Leaf", leaf)
-
+        await MerkleProof();
 
         let nftTxn = await lockBet?.();
         setLoading(true);
@@ -69,6 +71,62 @@ const Signers = () => {
     } catch (error) {
       console.log(error);
     }
+  };
+
+  // useEffect(() => {
+  //   const { proofs, indexPosition } = MerkleProof();
+  //   setProof(proofs);
+  //   setIndex(indexPosition);
+  //   console.log("Proof in useEffect", proof);
+  // }, []);
+
+  // const leaves = [
+  //   "0xe2b8651bF50913057fF47FC4f02A8e12146083B8",
+  //   "0x940ACd9375b46EC2FA7C0E8aAd9D7241fb01e205",
+  //   "0xCBD6832Ebc203e49E2B771897067fce3c58575ac",
+  // ].map((v) => SHA256(v));
+
+  const leaves = [
+    "0xe2b8651bF50913057fF47FC4f02A8e12146083B8",
+    "0x940ACd9375b46EC2FA7C0E8aAd9D7241fb01e205",
+    "0xCBD6832Ebc203e49E2B771897067fce3c58575ac",
+  ];
+  const hashedLeaves = leaves.map((leaf) => SHA256(leaf));
+  //const tree = new MerkleTree(leaves, SHA256, { sort: false });
+  const tree = new MerkleTree(hashedLeaves, SHA256, { sort: false });
+  const root = tree.getHexRoot();
+  //console.log ("Root>>>>>>>>", root)
+
+  const MerkleProof = async () => {
+    if (!address) {
+      // Handle the case when the wallet address is not available
+      // Set default values or handle the error accordingly
+      return { proofs: [], indexPosition: 0 }; // Example: Setting default values
+    }
+    console.log("Wallet Address", address);
+    // console.log("Hashed wallet:", SHA256(address as string));
+    // console.log("Leaves index address:", leaves[0]);
+    const leaf = SHA256(address as string);
+    // const temp = address.toLowerCase();
+    // console.log("Hashed wallet lowercase:", SHA256(temp as string));
+    // const leaf = SHA256(temp as string);
+    //console.log("Leaf", leaf);
+    const proofs = tree.getHexProof(leaf);
+     setProof(proofs);
+    console.log("Proof", proof);
+    //const indexPosition = leaves.findIndex((v) => v === leaf);
+    const indexPosition = leaves.findIndex(
+      (addressToFind) => addressToFind === address
+    );
+    console.log("Index Position", indexPosition);
+
+    if (indexPosition === -1) {
+      throw new Error("Leaf not found in the Merkle tree");
+    }
+    // setIndex(indexPosition);
+    setIndex(indexPosition);
+    console.log("Index", index);
+    return { proofs, indexPosition };
   };
 
   return (
@@ -88,10 +146,8 @@ const Signers = () => {
                   <>
                     <h1 className="text-3xl md:text-5xl font-bold text-white ">
                       The Krinza{" "}
-                      <span className="line-through text-red-500">
-                        10
-                      </span>{" "}
-                      1 Push Challenge <br></br>
+                      <span className="line-through text-red-500">10</span> 1
+                      Push Challenge <br></br>
                     </h1>
                     <h1 className="text-md md:text-xl text-white">
                       Choose your side:
@@ -107,14 +163,14 @@ const Signers = () => {
                         <div className="flex flex-col md:flex-row md:space-x-3 space-y-2 md:space-y-0">
                           <button
                             className=" bg-blue-500 hover:bg-red-600 rounded-full px-12 py-2 text-white font-bold"
-                             onClick={lockBetFunction}
+                            onClick={lockBetFunction}
                           >
                             Lock
                           </button>
                           <p className="text-white md:pt-1 ">or</p>
                           <button
                             className="md:w-1/2 bg-blue-500 hover:bg-red-600 rounded-full px-12 py-2  text-white font-bold"
-                           // onClick={voteBeleiveFunction}
+                            // onClick={voteBeleiveFunction}
                           >
                             End Game
                           </button>
@@ -135,4 +191,4 @@ const Signers = () => {
   );
 };
 
-export default dynamic(() => Promise.resolve(Signers), { ssr: false });;
+export default dynamic(() => Promise.resolve(Signers), { ssr: false });
