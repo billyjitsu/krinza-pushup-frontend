@@ -69,6 +69,76 @@ const Signers = () => {
     }
   };
 
+  // // End Game
+  const { config: endGameConfig, data: dataEndGame } = usePrepareContractWrite({
+    ...contractConfig,
+    functionName: "endGame",
+    args: [proof, index],
+    overrides: {
+      gasLimit: 1500000,
+    },
+    onError(error: any) {
+      console.log("Error", error);
+    },
+  } as unknown as UsePrepareContractWriteConfig);
+
+  const {
+    data: endGameData,
+    writeAsync: endGame,
+    isLoading: isEndGameLoading,
+    isSuccess: isEndGameSuccess,
+  } = useContractWrite(endGameConfig as UseContractWriteConfig);
+
+  const endGameFunction = async () => {
+    try {
+      if (typeof endGame === "function") {
+        await MerkleProof();
+
+        let nftTxn = await endGame?.();
+        setLoading(true);
+        await nftTxn.wait();
+        setLoading(false);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // // Vote Outcome
+  const { config: voteOutcomeConfig, data: dataVoteOutcome } = usePrepareContractWrite({
+    ...contractConfig,
+    functionName: "voteOutcome",
+    args: [proof, index, true],  // true = win, false = lose   make this dynamic
+    overrides: {
+      gasLimit: 1500000,
+    },
+    onError(error: any) {
+      console.log("Error", error);
+    },
+  } as unknown as UsePrepareContractWriteConfig);
+
+  const {
+    data: voteData,
+    writeAsync: voteOutcome,
+    isLoading: isVoteLoading,
+    isSuccess: isVoteSuccess,
+  } = useContractWrite(voteOutcomeConfig as UseContractWriteConfig);
+
+  const voteOutcomeFunction = async () => {
+    try {
+      if (typeof voteOutcome === "function") {
+        await MerkleProof();
+
+        let nftTxn = await voteOutcome?.();
+        setLoading(true);
+        await nftTxn.wait();
+        setLoading(false);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   // const leaves = [
   //   "0xe2b8651bF50913057fF47FC4f02A8e12146083B8",
   //   "0x940ACd9375b46EC2FA7C0E8aAd9D7241fb01e205",
@@ -179,13 +249,20 @@ const Signers = () => {
                           >
                             Lock
                           </button>
-                          <p className="text-white md:pt-1 ">or</p>
+                          {/* <p className="text-white md:pt-1 ">or</p> */}
                           <button
                             className="md:w-1/2 bg-blue-500 hover:bg-red-600 rounded-full px-12 py-2  text-white font-bold"
-                            // onClick={voteBeleiveFunction}
+                            onClick={voteOutcomeFunction}
+                          >
+                            Vote
+                          </button>
+                          <button
+                            className="md:w-1/2 bg-blue-500 hover:bg-red-600 rounded-full px-12 py-2  text-white font-bold"
+                            onClick={endGameFunction}
                           >
                             End Game
                           </button>
+                          
                         </div>
                       </>
                     )
