@@ -714,7 +714,7 @@
 
 "@next/swc-darwin-arm64@13.3.0":
   version "13.3.0"
-  resolved "https://registry.npmjs.org/@next/swc-darwin-arm64/-/swc-darwin-arm64-13.3.0.tgz"
+  resolved "https://registry.yarnpkg.com/@next/swc-darwin-arm64/-/swc-darwin-arm64-13.3.0.tgz#38f18e0639cd4c7edc6a38d4b83fe00f38eea4f2"
   integrity sha512-DmIQCNq6JtccLPPBzf0dgh2vzMWt5wjxbP71pCi5EWpWYE3MsP6FcRXi4MlAmFNDQOfcFXR2r7kBeG1LpZUh1w==
 
 "@next/swc-darwin-x64@13.3.0":
@@ -1098,7 +1098,7 @@
 
 "@types/crypto-js@^4.1.1":
   version "4.1.1"
-  resolved "https://registry.yarnpkg.com/@types/crypto-js/-/crypto-js-4.1.1.tgz#602859584cecc91894eb23a4892f38cfa927890d"
+  resolved "https://registry.npmjs.org/@types/crypto-js/-/crypto-js-4.1.1.tgz"
   integrity sha512-BG7fQKZ689HIoc5h+6D2Dgq1fABRa0RbBWKBd9SP/MVRVXROflpm5fhwyATX5duFmbStzyzyycPB8qUYKDH3NA==
 
 "@types/json5@^0.0.29":
@@ -2285,7 +2285,7 @@ crypto-js@^3.1.9-1:
 
 crypto-js@^4.1.1:
   version "4.1.1"
-  resolved "https://registry.yarnpkg.com/crypto-js/-/crypto-js-4.1.1.tgz#9e485bcf03521041bd85844786b83fb7619736cf"
+  resolved "https://registry.npmjs.org/crypto-js/-/crypto-js-4.1.1.tgz"
   integrity sha512-o2JlM7ydqd3Qk9CA0L4NL6mTzU2sdx96a+oOfPu8Mkl/PK51vSyoi8/rQ8NknZtk44vq15lmhAj9CIAGwgeWKw==
 
 css-what@^5.0.1:
@@ -3108,7 +3108,7 @@ fs.realpath@^1.0.0:
 
 fsevents@~2.3.2:
   version "2.3.2"
-  resolved "https://registry.npmjs.org/fsevents/-/fsevents-2.3.2.tgz"
+  resolved "https://registry.yarnpkg.com/fsevents/-/fsevents-2.3.2.tgz#8a526f78b8fdf4623b709e0b975c52c24c02fd1a"
   integrity sha512-xiqMQR4xAeHTuB9uWm+fFRcIOgKBMiOBP+eXiyT7jsgVCq1bkVygt00oASowB7EdtpOHaaPgKt812P9ab+DDKA==
 
 function-bind@^1.1.1:

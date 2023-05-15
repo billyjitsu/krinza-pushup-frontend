@@ -4,9 +4,11 @@ import { ConnectButton, connectorsForWallets } from "@rainbow-me/rainbowkit";
 import heroImage from "../images/push-up.webp";
 import {
   useAccount,
+  useProvider,
   usePrepareContractWrite,
   useContractWrite,
   useContractRead,
+  useContract,
 } from "wagmi";
 import { ethers } from "ethers";
 import React, { useState, useEffect } from "react";
@@ -16,14 +18,15 @@ import type {
   UseContractReadConfig,
   UsePrepareContractWriteConfig,
   UseContractWriteConfig,
+  UseContractEventConfig,
 } from "wagmi";
 import EscrowContract from "../contract/escrow.json";
 
 const Intro = () => {
   const { address, isConnected } = useAccount();
   const [loading, setLoading] = useState<boolean>(false);
- // const [contractAddress, setContractAddress] = useState<string>("");
-  const [nft, setNFT] = useState("");
+  const [eventHappened, setEventHappened] = useState<boolean>(false);
+  const provider = useProvider();
 
   const ESCROWCONTRACT = process.env.NEXT_PUBLIC_CONTRACT_ADDRESS;
 
@@ -45,20 +48,18 @@ const Intro = () => {
   // Hater or Believer ///////////////////
   // hater
   const { config: voteHaterConfig, data: dataHaterVote } =
-  usePrepareContractWrite({
-    ...contractConfig,
-    functionName: "depositVote",
-    args: [
-      false
-    ],
-    overrides: {
-      gasLimit: 1500000,
-      value: ethers.utils.parseEther("0.0026"),
-    },
-    onError(error:any) {
-      console.log("Error", error);
-    },
-  } as unknown as UsePrepareContractWriteConfig);
+    usePrepareContractWrite({
+      ...contractConfig,
+      functionName: "depositVote",
+      args: [false],
+      overrides: {
+        gasLimit: 1500000,
+        value: ethers.utils.parseEther("0.0026"),
+      },
+      onError(error: any) {
+        console.log("Error", error);
+      },
+    } as unknown as UsePrepareContractWriteConfig);
 
   const {
     data: voteHaterData,
@@ -69,35 +70,32 @@ const Intro = () => {
 
   const voteHaterFunction = async () => {
     try {
-
-      if(typeof voteHater === "function") {
-      let nftTxn = await voteHater?.();
-      setLoading(true);
-      await nftTxn.wait();
-      setLoading(false);
+      if (typeof voteHater === "function") {
+        let nftTxn = await voteHater?.();
+        setLoading(true);
+        await nftTxn.wait();
+        setLoading(false);
       }
-
     } catch (error) {
       console.log(error);
     }
   };
 
   //Believer
-  const { config: voteBelieveConfig, data: dataVote } =
-  usePrepareContractWrite({
-    ...contractConfig,
-    functionName: "depositVote",
-    args: [
-      true
-    ],
-    overrides: {
-      gasLimit: 1500000,
-      value: ethers.utils.parseEther("0.1"),
-    },
-    onError(error:any) {
-      console.log("Error", error);
-    },
-  } as unknown as UsePrepareContractWriteConfig);
+  const { config: voteBelieveConfig, data: dataVote } = usePrepareContractWrite(
+    {
+      ...contractConfig,
+      functionName: "depositVote",
+      args: [true],
+      overrides: {
+        gasLimit: 1500000,
+        value: ethers.utils.parseEther("0.1"),
+      },
+      onError(error: any) {
+        console.log("Error", error);
+      },
+    } as unknown as UsePrepareContractWriteConfig
+  );
 
   const {
     data: voteBelieveData,
@@ -108,31 +106,75 @@ const Intro = () => {
 
   const voteBeleiveFunction = async () => {
     try {
-
-      if(typeof voteBeleive === "function") {
-      let nftTxn = await voteBeleive?.();
-      setLoading(true);
-      await nftTxn.wait();
-      setLoading(false);
+      if (typeof voteBeleive === "function") {
+        let nftTxn = await voteBeleive?.();
+        setLoading(true);
+        await nftTxn.wait();
+        setLoading(false);
       }
-
     } catch (error) {
       console.log(error);
     }
   };
   ///////////////////////////////////////////////////////
 
-  //Read String Status ////////////////////////////
-  const { data: nameCheck } = useContractRead({
+  //Claim Prize
+  const { config: collectConfig, data: dataCollect } = usePrepareContractWrite({
     ...contractConfig,
-    functionName: "name",
-    watch: true,
-  } as UseContractReadConfig);
+    functionName: "collectPayout",
+    overrides: {
+      gasLimit: 1500000,
+    },
+    onError(error: any) {
+      console.log("Error", error);
+    },
+  } as unknown as UsePrepareContractWriteConfig);
+
+  const {
+    data: collectData,
+    writeAsync: collectPay,
+    isLoading: iscollectLoading,
+    isSuccess: iscollectSuccess,
+  } = useContractWrite(collectConfig as UseContractWriteConfig);
+
+  const collectPayFunction = async () => {
+    try {
+      if (typeof collectPay === "function") {
+        let nftTxn = await collectPay?.();
+        setLoading(true);
+        await nftTxn.wait();
+        setLoading(false);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  ///////////////////////////////////////////////////////
+
+  const listen = useContract({
+    address: ESCROWCONTRACT as any,
+    abi: EscrowContract.abi,
+    signerOrProvider: provider,
+  });
+
+  const getPastEvents = async () => {
+    const events = await (listen?.queryFilter(
+      "gameEnded",
+      35447840,
+      "latest"
+    ) ?? []);
+    console.log(events);
+    if (events.length > 0) {
+      console.log("The event has occurred");
+      setEventHappened(true);
+    } else {
+      console.log("The event has not occurred");
+    }
+  };
 
   useEffect(() => {
-
-  }, [nameCheck]);
-  ///////////////////////////////////////////////////////
+    getPastEvents();
+  }, []);
 
   //Find the token URI of NFT ////////////////////////////
   // const { data: nftMetaData } = useContractRead({
@@ -147,55 +189,6 @@ const Intro = () => {
   //   setNFT(nftImage.image);
   //  // console.log("NFT Image", nftImage.image);
   // };
-  ///////////////////////////////////////////////////////
-
-  ////Withdraw /////////////////////////////////////////
-  // const { config: withdrawConfig, data: dataWithdraw } = usePrepareContractWrite({
-  //   ...contractConfig,
-  //   functionName: "withdrawAuctionFunds",
-  //   //args: [300],
-  //   overrides: {
-  //     gasLimit: 1500000,
-  //   },
-  //   onError(error : any) {
-  //     console.log("Error", error);
-  //   },
-  // } as unknown as UsePrepareContractWriteConfig);
-
-  // const {
-  //   data: withdrawData,
-  //   writeAsync: withdrawAuction,
-  //   isLoading: isWithdrawAuctionLoading,
-  //   isSuccess: isWithdrawAuctionSuccess,
-  // } = useContractWrite(withdrawConfig as UseContractWriteConfig);
-
-  // const withdrawFundsFunction = async () => {
-  //   try {
-  //     if(typeof withdrawAuction === "function"){
-  //     let nftTxn = await withdrawAuction?.();
-  //     setLoading(true);
-  //     await nftTxn.wait();
-  //     setLoading(false);
-  //     }
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
-  //////////////////////////////////////////////////////
-
-  //Read Auction Status ////////////////////////////
-  // const { data: auctionStartedStatus } = useContractRead({
-  //   ...contractConfig,
-  //   functionName: "auctionStarted",
-  //   watch: true,
-  // } as UseContractReadConfig);
-  /////////////////////////////////////////////////////
-
-  // just check to make sure I can read
-  useEffect(() => {
-      console.log("Read:", nameCheck);
-  }, [nameCheck]);
-
   ///////////////////////////////////////////////////////
 
   return (
@@ -215,10 +208,8 @@ const Intro = () => {
                   <>
                     <h1 className="text-3xl md:text-5xl font-bold text-white ">
                       The Krinza{" "}
-                      <span className="line-through text-red-500">
-                        10
-                      </span>{" "}
-                      1 Push Challenge <br></br>
+                      <span className="line-through text-red-500">10</span> 1
+                      Push Challenge <br></br>
                     </h1>
                     <h1 className="text-md md:text-xl text-white">
                       Choose your side:
@@ -227,28 +218,36 @@ const Intro = () => {
                 )}
 
                 <div className="flex flex-col max-w-s items-center text-center md:items-start ">
-                  {
-                    /*!isLoading && */ !loading && isConnected && (
-                      <>
-                        <div className="flex flex-col md:flex-row w-full md:w-full md:space-x-2 items-center "></div>
-                        <div className="flex flex-col md:flex-row md:space-x-3 space-y-2 md:space-y-0">
-                          <button
-                            className=" bg-blue-500 hover:bg-red-600 rounded-full px-12 py-2 text-white font-bold"
-                            onClick={voteHaterFunction}
-                          >
-                            Hater
-                          </button>
-                          <p className="text-white md:pt-1 ">or</p>
-                          <button
-                            className="md:w-1/2 bg-blue-500 hover:bg-red-600 rounded-full px-12 py-2  text-white font-bold"
-                            onClick={voteBeleiveFunction}
-                          >
-                            Believer
-                          </button>
-                        </div>
-                      </>
-                    )
-                  }
+                  {!loading && isConnected && (
+                    <>
+                      {/* <div className="flex flex-col md:flex-row w-full md:w-full md:space-x-2 items-center "></div> */}
+                      <div className="flex flex-col md:flex-row md:space-x-3 space-y-2 md:space-y-0">
+                        <button
+                          className=" bg-blue-500 hover:bg-red-600 rounded-full px-12 py-2 text-white font-bold"
+                          onClick={voteHaterFunction}
+                        >
+                          Hater
+                        </button>
+                        <p className="text-white md:pt-1 ">or</p>
+                        <button
+                          className="md:w-1/2 bg-blue-500 hover:bg-red-600 rounded-full px-12 py-2  text-white font-bold"
+                          onClick={voteBeleiveFunction}
+                        >
+                          Believer
+                        </button>
+                      </div>
+                    </>
+                  )}
+                  {isConnected && eventHappened && (
+                    <>
+                      <button
+                        className="md:w-1/5 bg-blue-500 hover:bg-red-600 rounded-full px-12 py-2  text-white font-bold"
+                        onClick={collectPayFunction}
+                      >
+                        Claim
+                      </button>
+                    </>
+                  )}
 
                   {!isConnected && (
                     <>

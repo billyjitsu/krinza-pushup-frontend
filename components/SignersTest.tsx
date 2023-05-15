@@ -35,6 +35,13 @@ const Signers = () => {
     abi: EscrowContract.abi,
   };
 
+  const handleOptionChange = (event: { target: { value: React.SetStateAction<string>; }; }) => {
+    const value = event.target.value === 'true'; // Convert string to boolean
+    setVote(value);
+    console.log("Vote Value", value);
+  };
+
+
   // // lock bets
   const { config: lockBetConfig, data: dataLockBet } = usePrepareContractWrite({
     ...contractConfig,
@@ -110,7 +117,7 @@ const Signers = () => {
     usePrepareContractWrite({
       ...contractConfig,
       functionName: "voteOutcome",
-      args: [proof, index, true], // true = win, false = lose   make this dynamic
+      args: [proof, index, vote], // true = win, false = lose   make this dynamic
       overrides: {
         gasLimit: 1500000,
       },
@@ -251,8 +258,8 @@ const Signers = () => {
                           Lock
                         </button>
                         {/* <p className="text-white md:pt-1 ">or</p> */}
-                        <select>
-                          <option value="">Select an option</option>
+                        <select onChange={handleOptionChange}>
+                          <option value="">Did Krinza do it</option>
                           <option value="true">Yes</option>
                           <option value="false">No</option>
                         </select>
