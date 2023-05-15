@@ -148,12 +148,6 @@ const Signers = () => {
     }
   };
 
-  // const leaves = [
-  //   "0xe2b8651bF50913057fF47FC4f02A8e12146083B8",
-  //   "0x940ACd9375b46EC2FA7C0E8aAd9D7241fb01e205",
-  //   "0xCBD6832Ebc203e49E2B771897067fce3c58575ac",
-  // ].map((v) => SHA256(v));
-
   const leaves = [
     "0xe2b8651bF50913057fF47FC4f02A8e12146083B8",
     "0x940ACd9375b46EC2FA7C0E8aAd9D7241fb01e205",

@@ -89,7 +89,7 @@ const Intro = () => {
       args: [true],
       overrides: {
         gasLimit: 1500000,
-        value: ethers.utils.parseEther("0.1"),
+        value: ethers.utils.parseEther("0.0026"),
       },
       onError(error: any) {
         console.log("Error", error);
@@ -211,14 +211,17 @@ const Intro = () => {
                       <span className="line-through text-red-500">10</span> 1
                       Push Challenge <br></br>
                     </h1>
-                    <h1 className="text-md md:text-xl text-white">
+                    {!eventHappened && (<h1 className="text-md md:text-xl text-white">
                       Choose your side:
-                    </h1>
+                    </h1>)}
+                    {eventHappened && (<h1 className="text-md md:text-xl text-white">
+                      Claim your prize:
+                    </h1>)}
                   </>
                 )}
 
                 <div className="flex flex-col max-w-s items-center text-center md:items-start ">
-                  {!loading && isConnected && (
+                  {!loading && isConnected && !eventHappened && (
                     <>
                       {/* <div className="flex flex-col md:flex-row w-full md:w-full md:space-x-2 items-center "></div> */}
                       <div className="flex flex-col md:flex-row md:space-x-3 space-y-2 md:space-y-0">
