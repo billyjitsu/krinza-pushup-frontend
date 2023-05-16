@@ -2,6 +2,8 @@ import dynamic from "next/dynamic";
 import Image from "next/image";
 import { ConnectButton, connectorsForWallets } from "@rainbow-me/rainbowkit";
 import heroImage from "../images/push-up.webp";
+import { ChooseSideButton } from "./Buttons/ChooseSideButton";
+import { ClaimPrizeButton } from "./Buttons/ClaimPrizeButton";
 import backDropImage from "../images/pull2.webp";
 import testImg from "../images/pulld.jpg";
 import {
@@ -46,112 +48,6 @@ const Intro = () => {
 
   //   console.log(contractAddress);
   // };
-
-  // Hater or Believer ///////////////////
-  // hater
-  const { config: voteHaterConfig, data: dataHaterVote } =
-    usePrepareContractWrite({
-      ...contractConfig,
-      functionName: "depositVote",
-      args: [false],
-      overrides: {
-        gasLimit: 1500000,
-        value: ethers.utils.parseEther("0.0026"),
-      },
-      onError(error: any) {
-        console.log("Error", error);
-      },
-    } as unknown as UsePrepareContractWriteConfig);
-
-  const {
-    data: voteHaterData,
-    writeAsync: voteHater,
-    isLoading: isvoteHaterLoading,
-    isSuccess: isvoteHaterSuccess,
-  } = useContractWrite(voteHaterConfig as UseContractWriteConfig);
-
-  const voteHaterFunction = async () => {
-    try {
-      if (typeof voteHater === "function") {
-        let nftTxn = await voteHater?.();
-        setLoading(true);
-        await nftTxn.wait();
-        setLoading(false);
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  //Believer
-  const { config: voteBelieveConfig, data: dataVote } = usePrepareContractWrite(
-    {
-      ...contractConfig,
-      functionName: "depositVote",
-      args: [true],
-      overrides: {
-        gasLimit: 1500000,
-        value: ethers.utils.parseEther("0.0026"),
-      },
-      onError(error: any) {
-        console.log("Error", error);
-      },
-    } as unknown as UsePrepareContractWriteConfig
-  );
-
-  const {
-    data: voteBelieveData,
-    writeAsync: voteBeleive,
-    isLoading: isvoteBelieveLoading,
-    isSuccess: isvoteBelieveSuccess,
-  } = useContractWrite(voteBelieveConfig as UseContractWriteConfig);
-
-  const voteBeleiveFunction = async () => {
-    try {
-      if (typeof voteBeleive === "function") {
-        let nftTxn = await voteBeleive?.();
-        setLoading(true);
-        await nftTxn.wait();
-        setLoading(false);
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
-  ///////////////////////////////////////////////////////
-
-  //Claim Prize
-  const { config: collectConfig, data: dataCollect } = usePrepareContractWrite({
-    ...contractConfig,
-    functionName: "collectPayout",
-    overrides: {
-      gasLimit: 1500000,
-    },
-    onError(error: any) {
-      console.log("Error", error);
-    },
-  } as unknown as UsePrepareContractWriteConfig);
-
-  const {
-    data: collectData,
-    writeAsync: collectPay,
-    isLoading: iscollectLoading,
-    isSuccess: iscollectSuccess,
-  } = useContractWrite(collectConfig as UseContractWriteConfig);
-
-  const collectPayFunction = async () => {
-    try {
-      if (typeof collectPay === "function") {
-        let nftTxn = await collectPay?.();
-        setLoading(true);
-        await nftTxn.wait();
-        setLoading(false);
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
-  ///////////////////////////////////////////////////////
 
   const listen = useContract({
     address: ESCROWCONTRACT as any,
@@ -242,36 +138,17 @@ const Intro = () => {
 
                     <div className="flex flex-col max-w-s items-center text-center">
                       {!loading && isConnected && !eventHappened && (
-                        <>
-                          {/* <div className="flex flex-col md:flex-row w-full md:w-full md:space-x-2 items-center "></div> */}
-                          <div className="flex flex-col md:flex-row md:space-x-3 space-y-2 md:space-y-0">
-                            <button
-                              className=" bg-red-700 hover:bg-red-600 rounded-full px-12 py-2 text-white font-bold"
-                              onClick={voteHaterFunction}
-                            >
-                              Hater
-                            </button>
-                            <p className="text-white md:pt-1 ">or</p>
-                            <button
-                              className="md:w-1/2 bg-red-700 hover:bg-red-600 rounded-full px-12 py-2  text-white font-bold"
-                              onClick={voteBeleiveFunction}
-                            >
-                              Believer
-                            </button>
-                          </div>
-                        </>
+                        <ChooseSideButton
+                          contractConfig={contractConfig}
+                          setLoading={setLoading}
+                        />
                       )}
                       {isConnected && eventHappened && (
-                        <>
-                          <button
-                            className="md:w-1/5 bg-red-700 hover:bg-red-600 rounded-full px-12 py-2  text-white font-bold"
-                            onClick={collectPayFunction}
-                          >
-                            Claim
-                          </button>
-                        </>
+                        <ClaimPrizeButton
+                          contractConfig={contractConfig}
+                          setLoading={setLoading}
+                        />
                       )}
-
                       {!isConnected && (
                         <>
                           <ConnectButton />
