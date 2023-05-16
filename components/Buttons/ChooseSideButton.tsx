@@ -7,7 +7,7 @@ import type {
 } from "wagmi";
 
 interface ChooseSideButtonProps {
-  contractConfig: any;
+  contractConfig: any; // TODO: make this properly typed to an address + ABI
   setLoading: (value: React.SetStateAction<boolean>) => void;
 }
 
