@@ -79,9 +79,9 @@ const Header = () => {
               </a>
             </li> */}
             <li className="flex items-center">
+              <Link href= "/admin"/>
               <a
                 className="py-2 text-sm uppercase px-6 font-bold leading-snug text-gray-800 lg:text-base lg:text-white hover:opacity-75 lg:px-3"
-                href="/admin"
                 onClick={() => setNavbarOpen(!navbarOpen)}
               >
                 <i className=" leading-lg  opacity-75"></i>
