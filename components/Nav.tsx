@@ -26,20 +26,23 @@ const Header = () => {
   //OG Nav bar
   //<nav className="flex bg-transparent  py-3 px-1 justify-between w-full items-center  fixed top-0 z-50 "> {/* absolute or fixed*/}
 
+  //was used before
+  // <nav
+  //     className={`flex bg-black pt-10 pb-10 px-1 w-full justify-between items-center fixed top-0 z-50 duration-500 ease-in-out ${
+  //       animateHeader &&
+  //       " backdrop-filter backdrop-blur-lg bg-black/25 trasition shadow-xl "
+  //     }`}
+  //   ></nav>
+
   return (
-    <nav
-      className={`flex bg-black pt-10 pb-10 px-1 w-full justify-between items-center fixed top-0 z-50 duration-500 ease-in-out ${
-        animateHeader &&
-        " backdrop-filter backdrop-blur-lg bg-black/25 trasition shadow-xl "
-      }`}
-    >
+    <nav className="flex bg-transparent  py-3 px-1 justify-between w-full items-center  fixed top-0 z-50  "> {/* absolute or fixed*/}
       <div className="container px-1 mx-auto flex flex-wrap items-center justify-between ">
         <div className="w-full relative flex justify-between lg:w-auto lg:static lg:block lg:justify-start">
           {/* Logo - Title */}
 
           <Link legacyBehavior href="/">
-            <a className="text-xl font-bold text-white inline-block whitespace-nowrap uppercase">
-              Krinza Push Up Challenge
+            <a className="text-xl font-bold text-red-600 inline-block whitespace-nowrap uppercase">
+              Krinza Challenge
             </a>
           </Link>
 
@@ -75,19 +78,19 @@ const Header = () => {
                 <span>Claim</span>
               </a>
             </li> */}
-            {/* <li className="flex items-center">
-              <a
-                className="py-2 text-sm uppercase px-6 font-bold leading-snug text-gray-800 lg:text-base lg:text-white hover:opacity-75 lg:px-3"
-                href="#break"
-                onClick={() => setNavbarOpen(!navbarOpen)}
-              >
-                <i className=" leading-lg  opacity-75"></i>
-                <span>Break</span>
-              </a>
-            </li> */}
             <li className="flex items-center">
               <a
                 className="py-2 text-sm uppercase px-6 font-bold leading-snug text-gray-800 lg:text-base lg:text-white hover:opacity-75 lg:px-3"
+                href="/admin"
+                onClick={() => setNavbarOpen(!navbarOpen)}
+              >
+                <i className=" leading-lg  opacity-75"></i>
+                <span>Admin</span>
+              </a>
+            </li>
+            <li className="flex items-center">
+              <a
+                className="py-2 text-sm uppercase px-6 font-bold leading-snug text-gray-800 lg:text-base lg:text-red-600 hover:opacity-75 lg:px-3"
                 href="https://goerli.etherscan.io/address/"
                 target="_blank"
                 rel="noreferrer"

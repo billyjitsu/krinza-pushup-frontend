@@ -5,6 +5,7 @@ import {
   getDefaultWallets,
   RainbowKitProvider,
   connectorsForWallets,
+  lightTheme,
 } from "@rainbow-me/rainbowkit";
 import {
   injectedWallet,
@@ -62,7 +63,12 @@ const wagmiClient = createClient({
 export default function App({ Component, pageProps }: AppProps) {
   return (
     <WagmiConfig client={wagmiClient}>
-      <RainbowKitProvider chains={chains}>
+      <RainbowKitProvider chains={chains} theme={lightTheme({
+      accentColor: '#880808', 
+      accentColorForeground: 'white',
+      borderRadius: 'large',
+      fontStack: 'system',
+    })}>
         <Component {...pageProps} />
       </RainbowKitProvider>
     </WagmiConfig>

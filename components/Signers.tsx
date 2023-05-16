@@ -2,15 +2,16 @@ import dynamic from "next/dynamic";
 import Image from "next/image";
 import {
   useAccount,
+  useProvider,
   usePrepareContractWrite,
   useContractWrite,
   useContractRead,
+  useContract,
 } from "wagmi";
 import { ethers } from "ethers";
 import React, { useState, useEffect } from "react";
 import LoadingScreen from "./Loading";
 import EscrowContract from "../contract/escrow.json";
-//import useMerkleProof from "./Merkle";
 import { MerkleTree } from "merkletreejs";
 import SHA256 from "keccak256";
 
@@ -22,11 +23,15 @@ import type {
 
 const Signers = () => {
   const { address, isConnected } = useAccount();
+  const provider = useProvider();
   const [loading, setLoading] = useState<boolean>(false);
   const [proof, setProof] = React.useState<string[]>([]);
   const [index, setIndex] = React.useState(0);
   const [onList, setOnList] = React.useState(true);
   const [vote, setVote] = React.useState(true);
+  // const [locked, setLocked] = React.useState(false);
+  // const [voted, setVoted] = React.useState(false);
+  // const [endedGame, setEndedGame] = React.useState(false);
 
   const ESCROWCONTRACT = process.env.NEXT_PUBLIC_CONTRACT_ADDRESS;
 
@@ -148,6 +153,7 @@ const Signers = () => {
     }
   };
 
+
   const leaves = [
     "0xe2b8651bF50913057fF47FC4f02A8e12146083B8",
     "0x940ACd9375b46EC2FA7C0E8aAd9D7241fb01e205",
@@ -246,25 +252,25 @@ const Signers = () => {
                       <div className="flex flex-col md:flex-row w-full md:w-full md:space-x-2 items-center "></div>
                       <div className="flex flex-col md:flex-row md:space-x-3 space-y-2 md:space-y-0">
                         <button
-                          className=" bg-blue-500 hover:bg-red-600 rounded-full px-12 py-2 text-white font-bold"
+                          className="bg-red-700 hover:bg-red-600 rounded-full px-12 py-2 text-white font-bold"
                           onClick={lockBetFunction}
                         >
                           Lock
                         </button>
                         {/* <p className="text-white md:pt-1 ">or</p> */}
-                        <select onChange={handleOptionChange}>
+                        <select className="bg-red-700 hover:bg-red-600  text-white rounded-full font-bold px-2" onChange={handleOptionChange}>
                           <option value="">Did Krinza do it</option>
                           <option value="true">Yes</option>
                           <option value="false">No</option>
                         </select>
                         <button
-                          className="md:w-1/2 bg-blue-500 hover:bg-red-600 rounded-full px-12 py-2  text-white font-bold"
+                          className="md:w-1/2 bg-red-700 hover:bg-red-600 rounded-full px-12 py-2  text-white font-bold"
                           onClick={voteOutcomeFunction}
                         >
                           Vote
                         </button>
                         <button
-                          className="md:w-1/2 bg-blue-500 hover:bg-red-600 rounded-full px-12 py-2  text-white font-bold"
+                          className="md:w-1/2 bg-red-700 hover:bg-red-600 rounded-full px-12 py-2 text-white font-bold whitespace-nowrap"
                           onClick={endGameFunction}
                         >
                           End Game
