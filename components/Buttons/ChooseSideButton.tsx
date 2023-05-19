@@ -9,11 +9,15 @@ import type {
 interface ChooseSideButtonProps {
   contractConfig: any; // TODO: make this properly typed to an address + ABI
   setLoading: (value: React.SetStateAction<boolean>) => void;
+  setMinted: (value: React.SetStateAction<boolean>) => void;
+  setHater: (value: React.SetStateAction<boolean>) => void;
 }
 
 const ChooseSideButton = ({
   contractConfig,
   setLoading,
+  setMinted,
+  setHater,
 }: ChooseSideButtonProps) => {
 
   // Hater or Believer ///////////////////
@@ -46,6 +50,8 @@ const ChooseSideButton = ({
         setLoading(true);
         await nftTxn.wait();
         setLoading(false);
+        setMinted(true);
+        setHater(true);
       }
     } catch (error) {
       console.log(error);
@@ -82,6 +88,8 @@ const ChooseSideButton = ({
         setLoading(true);
         await nftTxn.wait();
         setLoading(false);
+        setMinted(true);
+        setHater(false);
       }
     } catch (error) {
       console.log(error);

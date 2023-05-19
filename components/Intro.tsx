@@ -4,8 +4,9 @@ import { ConnectButton, connectorsForWallets } from "@rainbow-me/rainbowkit";
 import heroImage from "../images/push-up.webp";
 import { ChooseSideButton } from "./Buttons/ChooseSideButton";
 import { ClaimPrizeButton } from "./Buttons/ClaimPrizeButton";
-import backDropImage from "../images/pull2.webp";
-import testImg from "../images/pulld.jpg";
+import backDropImage from "../images/pull.webp";
+import hater from "../images/Hater.jpg";
+import believer from "../images/Believer.jpg";
 import {
   useAccount,
   useProvider,
@@ -30,6 +31,8 @@ const Intro = () => {
   const { address, isConnected } = useAccount();
   const [loading, setLoading] = useState<boolean>(false);
   const [eventHappened, setEventHappened] = useState<boolean>(false);
+  const [minted, setMinted] = useState<boolean>(false);
+  const [fullHater, setHater] = useState<boolean>(false);
   const provider = useProvider();
 
   const ESCROWCONTRACT = process.env.NEXT_PUBLIC_CONTRACT_ADDRESS;
@@ -98,7 +101,7 @@ const Intro = () => {
               <div>
                 {
                   <Image
-                    src={testImg}
+                    src={backDropImage}
                     alt="heroBanner"
                     layout="fill"
                     objectFit="cover"
@@ -116,7 +119,7 @@ const Intro = () => {
               <div className="container relative mx-auto p-16 md:p-0">
                 <div className="flex flex-col  items-center justify-center -mt-6 md:mt-0 sm:-ml-0 md:-ml-12">
                   <div className="text-center md:text-left md:ml-16 space-x-2 space-y-5">
-                    {!loading && (
+                    {!loading && !minted && (
                       <>
                         <h1 className="text-3xl md:text-5xl font-bold text-center text-white ">
                           The Krinza{" "}
@@ -137,13 +140,15 @@ const Intro = () => {
                     )}
 
                     <div className="flex flex-col max-w-s items-center text-center">
-                      {!loading && isConnected && !eventHappened && (
+                      {!loading && isConnected && !eventHappened && !minted && (
                         <ChooseSideButton
                           contractConfig={contractConfig}
                           setLoading={setLoading}
+                          setMinted={setMinted}
+                          setHater={setHater}
                         />
                       )}
-                      {isConnected && eventHappened && (
+                      {isConnected && eventHappened && !minted && (
                         <ClaimPrizeButton
                           contractConfig={contractConfig}
                           setLoading={setLoading}
@@ -155,6 +160,44 @@ const Intro = () => {
                         </>
                       )}
                     </div>
+                    {minted && (
+                      <div className="flex flex-col items-center text-center">
+                        {fullHater ? (
+                          <>
+                            <p className="text-white text-center">
+                              What a Hater!!!
+                            </p>
+                            <Image
+                              src={hater}
+                              alt="nft"
+                              width={300}
+                              priority
+                              className="mb-5"
+                            />
+                          </>
+                        ) : (
+                          <>
+                            <p className="text-white text-center">
+                              A true believer, a friend of the people
+                            </p>
+                            <Image
+                              src={believer}
+                              alt="nft"
+                              width={300}
+                              priority
+                              className="mb-5"
+                            />
+                          </>
+                        )}
+
+                        <button
+                          className=" bg-red-700 hover:bg-red-600 rounded-full px-12 py-2  text-white font-bold"
+                          onClick={() => setMinted(false)}
+                        >
+                          Close
+                        </button>
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>
