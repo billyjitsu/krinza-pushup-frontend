@@ -79,19 +79,21 @@ const Header = () => {
               </a>
             </li> */}
             <li className="flex items-center">
-              <Link href= "/admin"/>
+              <Link legacyBehavior href= "/admin">
               <a
+  
                 className="py-2 text-sm uppercase px-6 font-bold leading-snug text-gray-800 lg:text-base lg:text-white hover:opacity-75 lg:px-3"
                 onClick={() => setNavbarOpen(!navbarOpen)}
               >
                 <i className=" leading-lg  opacity-75"></i>
                 <span>Admin</span>
               </a>
+              </Link>
             </li>
             <li className="flex items-center">
               <a
                 className="py-2 text-sm uppercase px-6 font-bold leading-snug text-gray-800 lg:text-base lg:text-red-600 hover:opacity-75 lg:px-3"
-                href="https://goerli.etherscan.io/address/"
+                href="https://mumbai.polygonscan.com/address/0xeD98E816fa73D0446A68F68a0e82b871e1ddcc62"
                 target="_blank"
                 rel="noreferrer"
                 onClick={() => setNavbarOpen(!navbarOpen)}

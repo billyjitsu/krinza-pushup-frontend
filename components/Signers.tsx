@@ -40,12 +40,13 @@ const Signers = () => {
     abi: EscrowContract.abi,
   };
 
-  const handleOptionChange = (event: { target: { value: React.SetStateAction<string>; }; }) => {
-    const value = event.target.value === 'true'; // Convert string to boolean
+  const handleOptionChange = (event: {
+    target: { value: React.SetStateAction<string> };
+  }) => {
+    const value = event.target.value === "true"; // Convert string to boolean
     setVote(value);
     console.log("Vote Value", value);
   };
-
 
   // // lock bets
   const { config: lockBetConfig, data: dataLockBet } = usePrepareContractWrite({
@@ -153,11 +154,11 @@ const Signers = () => {
     }
   };
 
-
   const leaves = [
     "0xe2b8651bF50913057fF47FC4f02A8e12146083B8",
     "0x940ACd9375b46EC2FA7C0E8aAd9D7241fb01e205",
-    "0xCBD6832Ebc203e49E2B771897067fce3c58575ac",
+    "0x8ced2b58461F9Cc39D66B3DF1aBb1B3a4003a211",
+    "0xD6c23E2c0E19DFdF8638b076F1d076f7B29b74e1",
   ];
   const hashedLeaves = leaves.map((leaf) => SHA256(leaf));
   //const tree = new MerkleTree(leaves, SHA256, { sort: false });
@@ -236,9 +237,8 @@ const Signers = () => {
                 {!loading && onList && (
                   <>
                     <h1 className="text-3xl md:text-5xl font-bold text-white ">
-                      The VC{" "}
-                      <span className=" text-red-500">5 </span>
-                       Council <br></br>
+                      The VC <span className=" text-red-500">5 </span>
+                      Council <br></br>
                     </h1>
                     <h1 className="text-md md:text-xl text-white">
                       You have the power:
@@ -258,7 +258,10 @@ const Signers = () => {
                           Lock
                         </button>
                         {/* <p className="text-white md:pt-1 ">or</p> */}
-                        <select className="bg-red-700 hover:bg-red-600  text-white rounded-full font-bold px-2" onChange={handleOptionChange}>
+                        <select
+                          className="bg-red-700 hover:bg-red-600  text-white rounded-full font-bold px-2"
+                          onChange={handleOptionChange}
+                        >
                           <option value="">Did Krinza do it</option>
                           <option value="true">Yes</option>
                           <option value="false">No</option>
