@@ -61,7 +61,7 @@ const Intro = () => {
   const getPastEvents = async () => {
     const events = await (listen?.queryFilter(
       "gameEnded",
-      35447840,
+       43354516 ,
       "latest"
     ) ?? []);
     console.log(events);
@@ -118,18 +118,23 @@ const Intro = () => {
             </div> */}
               <div className="container relative mx-auto p-16 md:p-0">
                 <div className="flex flex-col  items-center justify-center -mt-6 md:mt-0 sm:-ml-0 md:-ml-12">
-                  <div className="text-center md:text-left md:ml-16 space-x-2 space-y-5">
+                  <div className="text-center md:text-left md:ml-16 md:space-y-0 space-x-2 space-y-5">
                     {!loading && !minted && (
                       <>
-                        <h1 className="text-3xl md:text-5xl font-bold text-center text-white ">
+                        <h1 className="text-3xl md:text-5xl font-bold text-center md:pb-3 text-white ">
                           The Krinza{" "}
                           <span className="line-through text-red-500">10</span>{" "}
                           1 Push-Up Challenge <br></br>
                         </h1>
                         {!eventHappened && (
+                          <>
                           <h1 className="text-md md:text-2xl text-center text-white">
-                            Choose your side:
+                            Choose wisely:
                           </h1>
+                          <h1 className="text-md md:text-2xl text-center text-white pb-4">
+                          5 Matic
+                        </h1>
+                        </>
                         )}
                         {eventHappened && (
                           <h1 className="text-md md:text-2xl text-center text-white">

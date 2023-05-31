@@ -93,7 +93,7 @@ const Header = () => {
             <li className="flex items-center">
               <a
                 className="py-2 text-sm uppercase px-6 font-bold leading-snug text-gray-800 lg:text-base lg:text-red-600 hover:opacity-75 lg:px-3"
-                href="https://mumbai.polygonscan.com/address/0xeD98E816fa73D0446A68F68a0e82b871e1ddcc62"
+                href="https://polygonscan.com/address/0xb8EAa40a7976474a47bB48291FE569f383069FBc"
                 target="_blank"
                 rel="noreferrer"
                 onClick={() => setNavbarOpen(!navbarOpen)}
