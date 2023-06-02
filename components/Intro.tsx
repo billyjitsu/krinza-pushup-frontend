@@ -58,24 +58,24 @@ const Intro = () => {
     signerOrProvider: provider,
   });
 
-  const getPastEvents = async () => {
-    const events = await (listen?.queryFilter(
-      "gameEnded",
-       43354516 ,
-      "latest"
-    ) ?? []);
-    console.log(events);
-    if (events.length > 0) {
-      console.log("The event has occurred");
-      setEventHappened(true);
-    } else {
-      console.log("The event has not occurred");
-    }
-  };
+  // const getPastEvents = async () => {
+  //   const events = await (listen?.queryFilter(
+  //     "gameEnded",
+  //      43354516 ,
+  //     "latest"
+  //   ) ?? []);
+  //   console.log(events);
+  //   if (events.length > 0) {
+  //     console.log("The event has occurred");
+  //     setEventHappened(true);
+  //   } else {
+  //     console.log("The event has not occurred");
+  //   }
+  // };
 
-  useEffect(() => {
-    getPastEvents();
-  }, []);
+  // useEffect(() => {
+  //   getPastEvents();
+  // }, []);
 
   //Find the token URI of NFT ////////////////////////////
   // const { data: nftMetaData } = useContractRead({
@@ -137,7 +137,7 @@ const Intro = () => {
                         </>
                         )}
                         {eventHappened && (
-                          <h1 className="text-md md:text-2xl text-center text-white">
+                          <h1 className="text-md md:text-2xl text-center text-white pb-5">
                             Claim your prize:
                           </h1>
                         )}
