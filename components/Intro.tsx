@@ -30,7 +30,7 @@ import EscrowContract from "../contract/escrow.json";
 const Intro = () => {
   const { address, isConnected } = useAccount();
   const [loading, setLoading] = useState<boolean>(false);
-  const [eventHappened, setEventHappened] = useState<boolean>(false);
+  const [eventHappened, setEventHappened] = useState<boolean>(true);
   const [minted, setMinted] = useState<boolean>(false);
   const [fullHater, setHater] = useState<boolean>(false);
   const provider = useProvider();
